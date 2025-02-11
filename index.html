@@ -4,62 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transcripción de Audio</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            body {
-            background-image: url('https://postimg.cc/mcNFVgJJ');
-            background-size: cover;
-            background-position: center;
-}
-
-            text-align: center;
-            padding: 20px;
-            position: relative;
-            color: black; /* Cambié el color del texto para que se vea mejor sobre el fondo */
-        }
-        h1 {
-            color: #BA007C;
-        }
-        button {
-            background-color: #00529c;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #1b5e20;
-        }
-        #transcripcionMicrofono {
-            color: black;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-        #comandosContainer {
-            display: none;
-            position: absolute;
-            top: 50px;
-            right: 10px;
-            background: white;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        @keyframes colorCambio {
-            0% { background-color: red; }
-            25% { background-color: blue; }
-            50% { background-color: green; }
-            75% { background-color: yellow; }
-            100% { background-color: red; }
-        }
-        .animacionColor {
-            animation: colorCambio 2s infinite;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 </head>
 <body>
@@ -74,17 +19,18 @@
         <ul id="listaComandos"></ul>
     </div>
     
+    <!-- Contenedor para el botón y el campo de texto de "Agregar Comando" -->
     <div id="agregarComandoContainer">
         <h2>Agregar Comandos de Voz</h2>
         <input type="text" id="comandoTexto" placeholder="Ejemplo: 'coma' , ','">
         <button id="agregarComandoBtn">Agregar Comando</button>
     </div>
-
+    
     <script>
         let comandos = { "coma": ",", "punto": "." };
         let recognition;
         let grabando = false;
-
+        
         document.getElementById('grabarBtn').addEventListener('click', function() {
             let boton = this;
             grabando = !grabando;
@@ -97,20 +43,15 @@
                     alert("Tu navegador no soporta reconocimiento de voz. Usa Google Chrome.");
                     return;
                 }
-
                 recognition = new webkitSpeechRecognition();
                 recognition.continuous = true;
                 recognition.interimResults = true;
                 recognition.lang = 'es-ES';
-
                 recognition.onresult = function(event) {
                     let texto = "";
                     for (let i = 0; i < event.results.length; i++) {
                         let transcript = event.results[i][0].transcript.toLowerCase();
-                        
-                        // Eliminar puntos automáticos agregados por pausas
                         transcript = transcript.replace(/\.+$/, "");
-                        
                         for (let comando in comandos) {
                             transcript = transcript.replace(new RegExp(comando, "g"), comandos[comando]);
                         }
@@ -147,12 +88,12 @@
                 alert("Formato incorrecto. Usa: 'palabra', 'símbolo'");
             }
         });
-        
+
         document.getElementById('mostrarComandosBtn').addEventListener('click', function() {
             let container = document.getElementById('comandosContainer');
             container.style.display = container.style.display === 'none' ? 'block' : 'none';
         });
-        
+
         function actualizarListaComandos() {
             let lista = document.getElementById('listaComandos');
             lista.innerHTML = "";
@@ -167,3 +108,4 @@
     </script>
 </body>
 </html>
+
