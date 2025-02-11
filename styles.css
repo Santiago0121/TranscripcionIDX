@@ -3,100 +3,151 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    background-image: url('imagen.jpg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: #ffffff;
 }
 
 /* Encabezado */
 h1 {
     text-align: center;
-    margin-top: 20px;
-    color: #BA007C; /* Color verde */
+    margin-top: 84px;
+    color: #BA007C;
+    margin-left: 300px;
 }
 
-/* Formulario para subir el archivo de audio */
-form {
-    text-align: center;
-    margin-top: 30px;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Estilo de los inputs */
-input[type="file"] {
-    padding: 5px;
-    margin: 10px 0;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-}
-
-/* Estilo de los botones */
-button {
+/* Estilo específico para el botón "Iniciar Transcripción" */
+#grabarBtn {
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #00529c;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s;
+    margin-trim: 10px;
+    position: fixed;  /* Fijarlo en la página */
+    bottom: 700px;     /* A 20px desde el fondo */
+    right: 800px;      /* A 20px desde el borde derecho */
+    z-index: 1;      /* Asegura que esté por encima de otros elementos */
 }
 
-/* Efecto hover para el botón */
-button:hover {
-    background-color: #45a049;
+#grabarBtn:hover {
+    background-color: #6b1521; /* Para cambiar el color del botón cuando el mouse está por encima */
 }
 
-/* Estilo para el contenedor de resultados */
-#resultado {
-    text-align: center;
-    margin-top: 30px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 60%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Estilo para la sección del micrófono */
-#micResultado {
-    text-align: center;
-    margin-top: 30px;
-}
-
-/* Estilo para el texto del micrófono */
-#micTexto {
+/* Estilo específico para el botón "Exportar a Word" */
+#exportarWord {
+    padding: 10px 20px;
+    background-color: #00529c;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
     font-size: 16px;
-    margin-top: 10px;
-    color: #555;
-    font-style: italic;
+    transition: background-color 0.3s;
+    margin-trim: 10px;
+    position: fixed;  /* Fijarlo en la página */
+    bottom: 700px;     /* A 20px desde el fondo */
+    right: 620px;      /* A 20px desde el borde derecho */
+    z-index: 1;      /* Asegura que esté por encima de otros elementos */
+    display: none; /* Este botón solo aparece cuando se detiene la transcripción */
 }
 
-/* Ajustes responsivos para pantallas pequeñas */
+#exportarWord:hover {
+    background-color: #45a049; /* Cambio de color cuando el mouse está sobre el botón */
+}
+
+/* Estilo específico para el botón "Mostrar Comandos" */
+#mostrarComandosBtn {
+    padding: 10px 20px;
+    background-color: #00529c;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    position: fixed;
+    top: 10px;
+    right:  10px; 
+}
+
+#mostrarComandosBtn:hover {
+    background-color: #6b1521;
+}
+
+/* Contenedor para el botón de agregar comando y la caja de texto */
+#agregarComandoContainer {
+    position: fixed;
+    bottom: 20px; /* A 20px desde la parte inferior */
+    left: 20px;   /* A 20px desde la parte izquierda */
+    z-index: 10;  /* Asegura que esté por encima de otros elementos */
+    display: flex;
+    flex-direction: column;  /* Pone los elementos uno debajo del otro */
+    align-items: flex-start;  /* Alinea los elementos a la izquierda */
+}
+
+/* Estilo específico para el botón "Agregar Comando" */
+#agregarComandoBtn {
+    padding: 10px 20px;
+    background-color: #00529c;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-bottom: 10px; /* Espacio entre el botón y la caja de texto */
+}
+
+#agregarComandoBtn:hover {
+    background-color: #6b1521;
+}
+
+/* Estilo específico para la caja de texto */
+#comandoTexto {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px; /* Tamaño adecuado para la caja de texto */
+    margin-bottom: 10px; /* Espacio entre la caja de texto y el botón */
+}
+
+/* Contenedor de transcripción */
+#transcripcionMicrofono {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 200px;
+    margin-left: 200px;
+}
+
+/* Contenedor de comandos */
+#comandosContainer {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 150px;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsividad */
 @media (max-width: 600px) {
     body {
         padding: 10px;
     }
-
     h1 {
         font-size: 24px;
     }
-
-    form {
-        width: 100%;
-        padding: 15px;
-    }
-
-    #resultado {
-        width: 100%;
-        padding: 15px;
-    }
-
     button {
         width: 100%;
     }
